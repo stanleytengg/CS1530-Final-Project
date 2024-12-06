@@ -1,0 +1,109 @@
+body {
+    background-color: #eae0d5;
+}
+
+/* Register/Login Page */
+.container {
+    background-color: #c6ac8f;
+    color: 22333b;
+    display: grid;
+    width: 500px;
+    height: 400px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.container-top h1 {
+    margin: 20px 0px -10px 0px;
+    text-align: center;
+    color: #5e503f;
+}
+
+.flash-messages {
+    text-align: center;
+    height: 30px;
+    color: rgb(166, 2, 2);
+}
+
+.flashes {
+    list-style-type: none;
+    padding: 0;
+}
+
+.container form {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+.container label {
+    color: #5e503f;
+    font-size: larger;
+}
+
+.container input {
+    width: 300px;
+    height: 30px;
+    font-size: 16px;
+    background-color: #e0e1dd;
+    border: transparent;
+    border-radius: 1px;
+    margin-bottom: 10px;
+}
+
+input.register-login-btn {
+    margin-top: 15px;
+    border: 1px solid #5e503f;
+    background-color: transparent;
+}
+
+.register-login-btn:hover {
+    border: transparent;
+    background-color: #5e503f;
+    color: #c6ac8f; 
+    cursor: pointer;
+}
+
+.container p {
+    color: #5e503f;
+    text-align: center;
+}
+
+/* Home Page */
+#top-navigation-bar {
+    height: 4vh;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #c6ac8f;
+    color: #5e503f;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+}
+
+#page-name {
+    margin-left: 20px;
+}
+
+#login-username {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+}
+
+#login-username a {
+    margin-left: 30px;
+    color: #5e503f;
+    text-decoration: none;
+}
+
+#login-username a:hover {
+    color: #453b2e;
+}

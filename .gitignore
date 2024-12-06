@@ -1,0 +1,14 @@
+# Virtual environment folder
+venv/
+
+# OS-specific files
+.DS_Store
+
+# Python cache files
+__pycache__/
+
+# IDE and editor files
+.vscode/
+
+# Flask migrations folder
+migrations/
