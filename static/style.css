@@ -119,6 +119,11 @@ input.register-login-btn {
     align-items: center;
 }
 
+#day-tracker {
+    margin-right: 10px;
+    color: #5e503f;
+}
+
 #add-expenses-form {
     margin-top: 15px;
 }

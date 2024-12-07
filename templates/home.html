@@ -14,10 +14,14 @@
 </div>
 <div id="data">
     <div id="expenses-form">
+        <div id="day-tracker">
+            <h2>Day <span id="current-day">{{ current_user.day }}</span></h2>
+        </div>
         <form id="add-expenses-form">
             <input type="text" id="new-expense" name="add-expense" placeholder=" Enter an expense" required>
             <button type="submit" class="btn">Add</button>
         </form>
+        <button id="next-day-btn" class="btn">Next Day</button>
         <form id="track-expenses-form">
             <input type="submit" value="Track" class="btn">
         </form>

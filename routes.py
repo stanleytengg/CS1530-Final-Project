@@ -75,11 +75,23 @@ def routes(app, db, bcrypt):
     @app.route('/add-expense', methods=['POST'])
     def add_expense():
         expense = float(request.form.get('add-expense'))
-        new_expense = Expense(amount=expense, user_id=current_user.uid)
+        new_expense = Expense(amount=expense, 
+                              user_id=current_user.uid,
+                              day_id=current_user.day
+                              )
         db.session.add(new_expense)
         db.session.commit()
 
         return jsonify({
             'id': new_expense.id, 
-            'expense': new_expense.amount
+            'expense': new_expense.amount,
+            'day_id': new_expense.day_id
         })
+
+    # Route for next day
+    @app.route('/next-day', methods=['POST'])
+    def next_day():
+        current_user.day += 1
+        db.session.commit()
+
+        return jsonify({'day': current_user.day})

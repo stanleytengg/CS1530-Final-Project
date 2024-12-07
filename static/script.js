@@ -1,23 +1,24 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Gets the expense form
     const expenseForm = document.getElementById('add-expenses-form');
-    if (expenseForm) {
-        expenseForm.addEventListener('submit', submitExpense);
-    }
+    expenseForm.addEventListener('submit', submitExpense);
+
+    const nextDayBtn = document.getElementById('next-day-btn');
+    nextDayBtn.addEventListener('click', nextDay);
 });
 
 async function submitExpense(e) {
     e.preventDefault();
     
+    // Loads expense amount into FormData object
     const expenseID = document.getElementById('new-expense');
     const formData = new FormData();
     formData.append('add-expense', expenseID.value);
 
+    // Sends POST request and parse the response
     const response = await fetch('/add-expense', {
         method: 'POST',
         body: formData
     });
-
     const data = await response.json();
 
     // Updates list and shows message if response and data is working
@@ -30,17 +31,30 @@ async function submitExpense(e) {
     expenseID.value = '';
 }
 
-function updateExpenseList(data) {
-    const expenseList = document.getElementById('expense-list');
-    if (expenseList) {
-        const expenseElement = document.createElement('div');
-        expenseElement.className = 'expense-item';
-        expenseElement.innerHTML = `
-            <span class="expense-amount">$${data.expense.toFixed(2)}</span>
-            <span class="expense-id">#${data.id}</span>
-        `;
-        expenseList.prepend(expenseElement);
+async function nextDay() {
+    // Sends POST request and parse the response
+    const response = await fetch('/next-day', {
+        method: 'POST'
+    });
+    const data = await response.json();
+
+    // Update the day display if response and data is working
+    if (response.ok && data) {
+        const currentDayID = document.getElementById('current-day');
+        currentDayID.textContent = data.day;
     }
+}
+
+function updateExpenseList(data) {
+    // Add element in expense list
+    const expenseList = document.getElementById('expense-list');
+    const expenseElement = document.createElement('div');
+    expenseElement.className = 'expense-item';
+    expenseElement.innerHTML = `
+        <span class="expense-day">Day ${data.day_id}</span>
+        <span class="expense-amount">$${data.expense.toFixed(2)}</span>
+    `;
+    expenseList.prepend(expenseElement);
 }
 
 function showMessage(message) {

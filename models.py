@@ -8,6 +8,7 @@ class User(db.Model, UserMixin):
     uid = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, nullable=False)
     password = db.Column(db.String(64), nullable=False)
+    day = db.Column(db.Integer, default=1)
     expenses = db.relationship('Expense', backref='user', lazy=True)
     notifictaions = db.relationship('Notification', backref='user', lazy=True)
     
@@ -17,8 +18,9 @@ class User(db.Model, UserMixin):
 class Expense(db.Model):
     __tablename__ = 'expenses'
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.uid'), nullable=False)
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.uid'), nullable=False)
+    day_id = db.Column(db.Integer, nullable=False)
     amount = db.Column(db.Float, nullable=False)
 
 class Notification(db.Model):
