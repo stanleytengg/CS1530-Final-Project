@@ -30,7 +30,7 @@ const submitBudget = async (e) => {
     expenseID.value = '';
 }
 
-function updateBudget() {
+const updateBudget = () => {
     fetch('get-budget', {
         method: 'GET',
         headers: {
@@ -77,6 +77,8 @@ async function submitExpense(e) {
         showMessage('Expense added successfully!');
     }
 
+    updateBudget()
+
     // Clears the input field
     expenseID.value = '';
 }
@@ -113,4 +115,34 @@ function showMessage(message) {
         messageElement.remove();
         messageContainer.remove();
     }, 1000);
+}
+
+const updateNotifications = () => {
+    fetch('/get-notification')
+    .then(response => response.json())
+    .then(data => {
+        if (data.notifications) {
+            const notificationList = document.getElementById('notification-list');
+            notificationList.innerHTML = '';
+
+            data.notifications.forEach(notification => {
+                const notificationItem = document.createElement('div');
+                notificationItem.classList.add('notification-item');
+
+                notificationItem.innerHTML = `
+                    <h4>${notification.title}</h4>
+                    <p>${notification.message}</p>
+                    <small>Created at: ${notification.created_at}</small>
+                    <div>Status: ${notification.is_read ? 'Read' : 'Unread'}</div>
+                `;
+                notificationList.appendChild(notificationItem);
+            });
+        } else {
+            // If no notifications are found
+            alert("No notifications found.");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }

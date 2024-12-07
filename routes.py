@@ -86,6 +86,19 @@ def routes(app, db, bcrypt):
         db.session.add(new_expense)
         db.session.commit()
 
+        budget = current_user.budget - new_expense.amount
+        current_user.budget = budget
+        if budget <= 0:
+            new_notification = Notification(
+                user_id=current_user.uid,  # Associate the notification with the current user
+                title="Running out of Budget",
+                message="After your latest expense, your budget is now empty.",
+                created_at=datetime.now()  # Use the current time for the notification's creation
+            )
+
+            db.session.add(new_notification)
+            db.session.commit()
+
         return jsonify({
             'id': new_expense.id, 
             'expense': new_expense.amount
