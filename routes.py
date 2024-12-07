@@ -95,3 +95,14 @@ def routes(app, db, bcrypt):
         db.session.commit()
 
         return jsonify({'day': current_user.day})
+    
+    # Route for get all expenses
+    @app.route('/get_all_expenses')
+    def get_all_expenses():
+        expenses = Expense.query.filter_by(user_id=current_user.uid).all()
+        data = [{
+            'day_id': expense.day_id,
+            'expense': expense.amount
+        } for expense in expenses]
+
+        return jsonify(data)
