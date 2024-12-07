@@ -107,3 +107,75 @@ input.register-login-btn {
 #login-username a:hover {
     color: #453b2e;
 }
+
+#data {
+    display: grid;
+    justify-content: center;
+}
+
+#expenses-form {
+    display: flex;
+    margin-top: 60px;
+    align-items: center;
+}
+
+#add-expenses-form {
+    margin-top: 15px;
+}
+
+#add-expenses-form input {
+    height: 35px;
+    width: 385px;
+    font-size: 17px;
+    background-color: white;
+    border: transparent;
+    margin-top: 1px;
+}
+
+#track-expenses-form {
+    margin-top: 17px;
+}
+
+.btn {
+    height: 35px;
+    width: 100px;
+    margin-bottom: 2px;
+    margin-left: 5px;
+    border: 1px solid #5e503f;
+    background-color: transparent;
+}
+
+.btn:hover {
+    border: transparent;
+    background-color: #5e503f;
+    color: #c6ac8f; 
+    cursor: pointer;
+}
+
+#message-container {
+    position: fixed;
+    text-align: center;
+    top: 20px;
+    left: 50%;
+    z-index: 1000;
+    transform: translateX(-50%);
+}
+
+.message {
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    min-width: 200px;
+    background-color: #caebd2;
+    color: #045517;
+    border: 1px solid #bce5c6;
+}
+
+.expense-item {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #faf5ef;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+}

@@ -1,6 +1,6 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
-from models import User
+from models import User, Expense
 
 def routes(app, db, bcrypt):
 
@@ -70,3 +70,16 @@ def routes(app, db, bcrypt):
     def logout():
         logout_user()
         return redirect(url_for('login'))
+
+    # Route for adding expenses
+    @app.route('/add-expense', methods=['POST'])
+    def add_expense():
+        expense = float(request.form.get('add-expense'))
+        new_expense = Expense(amount=expense, user_id=current_user.uid)
+        db.session.add(new_expense)
+        db.session.commit()
+
+        return jsonify({
+            'id': new_expense.id, 
+            'expense': new_expense.amount
+        })
