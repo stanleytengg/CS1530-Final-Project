@@ -161,7 +161,7 @@ input.register-login-btn {
     transform: translateX(-50%);
 }
 
-.message {
+.add-expense-message {
     padding: 10px 20px;
     margin-bottom: 10px;
     border-radius: 4px;

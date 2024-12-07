@@ -51,13 +51,13 @@ function showMessage(message) {
 
     // Creates the div container
     const messageElement = document.createElement('div');
-    messageElement.className = 'message';
+    messageElement.className = 'add-expense-message';
     messageElement.textContent = message;
 
     // Shows the message
     messageContainer.appendChild(messageElement);
 
-    // Removes the message after 2 seconds
+    // Removes the message after 1 seconds
     setTimeout(() => {
         messageElement.remove();
         messageContainer.remove();
