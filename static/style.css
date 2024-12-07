@@ -145,7 +145,7 @@ input.register-login-btn {
     justify-content: center;
 }
 
-#expenses-form {
+#expenses-form, #budget-from {
     display: flex;
     margin-top: 60px;
     align-items: center;
@@ -156,6 +156,15 @@ input.register-login-btn {
 }
 
 #add-expenses-form input {
+    height: 35px;
+    width: 385px;
+    font-size: 17px;
+    background-color: white;
+    border: transparent;
+    margin-top: 1px;
+}
+
+#budget-form input {
     height: 35px;
     width: 385px;
     font-size: 17px;

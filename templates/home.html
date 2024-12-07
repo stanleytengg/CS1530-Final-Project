@@ -31,5 +31,16 @@
         </form>
     </div>
     <div id="expense-list"></div>
+
+    <div id="budget-form">
+        <form id="set-budget-form">
+            <input type="text" id="new-budget" name="set-budget" placeholder="Enter a budget" required>
+            <button type="submit" class="btn">Set</button>
+        </form>
+    </div>
+    <span id="budget-display"></span>
 </div>
+<script>
+window.onload = updateBudget;
+</script>
 {% endblock %}

@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
-from models import User, Expense
+from models import User, Expense, Notification
+from datetime import datetime
 
 def routes(app, db, bcrypt):
 
@@ -89,3 +90,68 @@ def routes(app, db, bcrypt):
             'id': new_expense.id, 
             'expense': new_expense.amount
         })
+    
+    # Route for setting budget
+    @login_required
+    @app.route('/set-budget', methods=['POST'])
+    def set_budget():
+        budget = float(request.form.get('set-budget'))
+        if budget > 0:
+            current_user.budget = budget
+            db.session.commit()
+
+            return redirect(url_for('home'))
+        
+        return "Invalid budget", 400
+    
+    # Route for getting budget
+    @login_required
+    @app.route('/get-budget', methods=['GET'])
+    def get_budget():
+        return jsonify({'budget': current_user.budget})
+    
+    # Route for adding notification
+    @login_required
+    @app.route('/add-notification', methods=['POST'])
+    def add_notification():
+        data = request.get_json()
+
+        # Extract title and message from the JSON payload
+        title = data.get('title')
+        message = data.get('message')
+
+        # Validate the data
+        if not title or not message:
+            return jsonify({'message': 'Title and message are required'}), 400
+        
+        new_notification = Notification(
+            user_id=current_user.uid,  # Associate the notification with the current user
+            title=title,
+            message=message,
+            created_at=datetime.now()  # Use the current time for the notification's creation
+        )
+
+        db.session.add(new_notification)
+        db.session.commit()
+
+        return jsonify({'message': 'Notification added successfully'}), 201
+    
+    # Route for getting notifications
+    @login_required
+    @app.route('/get-notification', methods=['GET'])
+    def get_notification():
+        notifications = Notification.query.filter_by(user_id=current_user.uid).order_by(Notification.created_at.desc()).all()
+
+        # If no notifications found
+        if not notifications:
+            return jsonify({'message': 'No notifications found'}), 404
+
+        notifications_data = [{
+            'id': notification.id,
+            'title': notification.title,
+            'message': notification.message,
+            'is_read': notification.is_read,
+            'created_at': notification.created_at.strftime('%Y-%m-%d %H:%M:%S')
+        } for notification in notifications]
+
+        return jsonify({'notifications': notifications_data}), 200

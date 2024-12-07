@@ -8,6 +8,7 @@ class User(db.Model, UserMixin):
     uid = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, nullable=False)
     password = db.Column(db.String(64), nullable=False)
+    budget = db.Column(db.Float, nullable=True)
     expenses = db.relationship('Expense', backref='user', lazy=True)
     notifictaions = db.relationship('Notification', backref='user', lazy=True)
     
