@@ -72,3 +72,23 @@ function updateExpenseList(data) {
     expenseList.prepend(expenseElement);
 }
 
+function showMessage(message) {
+    // Creates a message container
+    messageContainer = document.createElement('div');
+    messageContainer.id = 'message-container';
+    document.body.prepend(messageContainer);
+
+    // Creates the div container
+    const messageElement = document.createElement('div');
+    messageElement.className = 'add-expense-message';
+    messageElement.textContent = message;
+
+    // Shows the message
+    messageContainer.appendChild(messageElement);
+
+    // Removes the message after 1 seconds
+    setTimeout(() => {
+        messageElement.remove();
+        messageContainer.remove();
+    }, 1000);
+}
