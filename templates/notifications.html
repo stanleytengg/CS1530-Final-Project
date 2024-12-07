@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div id="top-navigation-bar">
+    <div id="page-title">
+        <h1>Notifications</h1>
+    </div>
+
+    <div id="login-username">
+        <h3>{{ current_user.username }}</h3>
+        <div class="dropdown">
+            <div class="dropdown-content">
+                <a>Profile</a>
+                <a>Settings</a>
+                <a>Notifications</a>
+                <a id="logout" href="{{ url_for('logout') }}">logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

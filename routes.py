@@ -17,6 +17,12 @@ def routes(app, db, bcrypt):
     def home():
         return render_template('home.html')
     
+    # Route for notifications page
+    @app.route('/notifications')
+    @login_required
+    def notifications():
+        return render_template('notifications.html')
+    
     # Route for register page
     @app.route('/register', methods=['GET', 'POST'])
     def register():
