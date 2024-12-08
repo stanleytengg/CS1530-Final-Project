@@ -125,6 +125,7 @@ const updateNotifications = () => {
             const notificationList = document.getElementById('notification-list');
             notificationList.innerHTML = '';
 
+
             data.notifications.forEach(notification => {
                 const notificationItem = document.createElement('div');
                 notificationItem.classList.add('notification-item');
@@ -133,13 +134,12 @@ const updateNotifications = () => {
                     <h4>${notification.title}</h4>
                     <p>${notification.message}</p>
                     <small>Created at: ${notification.created_at}</small>
-                    <div>Status: ${notification.is_read ? 'Read' : 'Unread'}</div>
                 `;
                 notificationList.appendChild(notificationItem);
             });
         } else {
             // If no notifications are found
-            alert("No notifications found.");
+            notificationList.innerHTML = '<p>No notifications found.</p>';
         }
     })
     .catch(error => {

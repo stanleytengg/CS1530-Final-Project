@@ -220,3 +220,47 @@ input.register-login-btn {
     display: flex;
     justify-content: space-between;
 }
+
+/* Notifications Section */
+#notifications-section {
+    margin-top: 6vh; /* Adjust to be below the navigation bar */
+    padding: 20px;
+}
+
+#notification-list {
+    display: flex;
+    flex-direction: column; /* Display notifications in a vertical list */
+    gap: 15px; /* Space between notifications */
+}
+
+.notification-item {
+    border: 1px solid #ccc; /* Add border around each notification */
+    background-color: #f9f9f9; /* Light background color for notifications */
+    padding: 15px; /* Space inside the notification block */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect for notifications */
+.notification-item:hover {
+    transform: scale(1.02); /* Slightly enlarge the block */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Darker shadow on hover */
+}
+
+.notification-item h4 {
+    margin: 0 0 10px 0; /* Space below the title */
+    font-size: 1.2em;
+    color: #333;
+}
+
+.notification-item p {
+    margin: 0 0 8px 0; /* Space below the message */
+    font-size: 1em;
+    color: #555;
+}
+
+.notification-item small {
+    font-size: 0.9em;
+    color: #888; /* Muted color for timestamps */
+}

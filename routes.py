@@ -88,11 +88,13 @@ def routes(app, db, bcrypt):
 
         budget = current_user.budget - new_expense.amount
         current_user.budget = budget
+        db.session.commit()
+
         if budget <= 0:
             new_notification = Notification(
                 user_id=current_user.uid,  # Associate the notification with the current user
                 title="Running out of Budget",
-                message="After your latest expense, your budget is now empty.",
+                message=f"After your latest expense of ${new_expense.amount}, your budget is now {budget}.",
                 created_at=datetime.now()  # Use the current time for the notification's creation
             )
 
@@ -111,6 +113,16 @@ def routes(app, db, bcrypt):
         budget = float(request.form.get('set-budget'))
         if budget > 0:
             current_user.budget = budget
+            db.session.commit()
+            
+            new_notification = Notification(
+                user_id=current_user.uid,  # Associate the notification with the current user
+                title="New Budget Set",
+                message=f"You have set your budget to be ${budget}.",
+                created_at=datetime.now()  # Use the current time for the notification's creation
+            )
+
+            db.session.add(new_notification)
             db.session.commit()
 
             return redirect(url_for('home'))
@@ -163,7 +175,6 @@ def routes(app, db, bcrypt):
             'id': notification.id,
             'title': notification.title,
             'message': notification.message,
-            'is_read': notification.is_read,
             'created_at': notification.created_at.strftime('%Y-%m-%d %H:%M:%S')
         } for notification in notifications]
 

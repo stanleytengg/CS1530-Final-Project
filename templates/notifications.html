@@ -11,16 +11,18 @@
         <h3>{{ current_user.username }}</h3>
         <div class="dropdown">
             <div class="dropdown-content">
-                <a>Profile</a>
+                <a href="{{ url_for('home') }}">Home</a>
                 <a>Settings</a>
-                <a>Notifications</a>
+                <a href="{{ url_for('notifications') }}">Notifications</a>
                 <a id="logout" href="{{ url_for('logout') }}">logout</a>
             </div>
         </div>
     </div>
 </div>
 
-<div id="notification-list"></div>
+<div id="notifications-section">
+    <div id="notification-list"></div>
+</div>
 
 <script>
     window.onload = updateNotifications;
