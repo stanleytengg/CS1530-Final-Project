@@ -2,6 +2,7 @@ from flask import render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
 from models import User, Expense, Notification
 from datetime import datetime
+from sqlalchemy import func
 
 def routes(app, db, bcrypt):
 
@@ -77,18 +78,37 @@ def routes(app, db, bcrypt):
     def logout():
         logout_user()
         return redirect(url_for('login'))
+    
+    # Route for tracking page
+    @app.route('/track')
+    def track():
+        # Querys day_id and sum of expenses
+        daily_totals = db.session.query(Expense.day_id, func.sum(Expense.amount).label('total'))
+
+        # Filters by user and group them by day
+        daily_totals = daily_totals.filter_by(user_id=current_user.uid).group_by(Expense.day_id)
+
+        # Execute the query
+        daily_totals = daily_totals.all()
+        
+        # Converts to lists for the chart
+        days = [day for day, _ in daily_totals]
+        totals = [float(total) for _, total in daily_totals]
+        
+        return render_template('track.html', days=days, totals=totals)
 
     # Route for adding expenses
     @app.route('/add-expense', methods=['POST'])
     def add_expense():
         expense = float(request.form.get('add-expense'))
-        new_expense = Expense(amount=expense, user_id=current_user.uid)
+        new_expense = Expense(amount=expense, 
+                              user_id=current_user.uid,
+                              day_id=current_user.day
+                              )
         db.session.add(new_expense)
-        db.session.commit()
 
         budget = current_user.budget - new_expense.amount
         current_user.budget = budget
-        db.session.commit()
 
         if budget <= 0:
             new_notification = Notification(
@@ -103,8 +123,28 @@ def routes(app, db, bcrypt):
 
         return jsonify({
             'id': new_expense.id, 
-            'expense': new_expense.amount
+            'expense': new_expense.amount,
+            'day_id': new_expense.day_id
         })
+
+    # Route for next day
+    @app.route('/next-day', methods=['POST'])
+    def next_day():
+        current_user.day += 1
+        db.session.commit()
+
+        return jsonify({'day': current_user.day})
+    
+    # Route for get all expenses
+    @app.route('/get_all_expenses')
+    def get_all_expenses():
+        expenses = Expense.query.filter_by(user_id=current_user.uid).all()
+        data = [{
+            'day_id': expense.day_id,
+            'expense': expense.amount
+        } for expense in expenses]
+
+        return jsonify(data)
     
     # Route for setting budget
     @login_required
