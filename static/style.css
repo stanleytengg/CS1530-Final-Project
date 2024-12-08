@@ -194,3 +194,23 @@ input.register-login-btn {
     display: flex;
     justify-content: space-between;
 }
+
+/* Tracking page */
+#tracking-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#tracking-container h1 {
+    text-align: center;
+    color: #5e503f;
+    margin-bottom: 30px;
+}
+
+#chart-container {
+    position: relative;
+    height: 60vh;
+    width: 100%;
+    margin-top: 50px;
+}

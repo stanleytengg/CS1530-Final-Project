@@ -1,14 +1,20 @@
 document.addEventListener('DOMContentLoaded', async function() {
+    // Finds elements
     const expenseForm = document.getElementById('add-expenses-form');
-    expenseForm.addEventListener('submit', submitExpense);
-
     const nextDayBtn = document.getElementById('next-day-btn');
-    nextDayBtn.addEventListener('click', nextDay);
-
-    const expenses = await getAllExpenses();
-    expenses.forEach(function (expense) {
-        updateExpenseList(expense);
-    });
+    const expenseList = document.getElementById('expense-list');
+    const expenseChart = document.getElementById('expense-chart');
+    
+    // Adds event listeners if elements exist
+    if (expenseForm) expenseForm.addEventListener('submit', submitExpense);
+    if (nextDayBtn) nextDayBtn.addEventListener('click', nextDay);
+    if (expenseList) {
+        const expenses = await getAllExpenses();
+        expenses.forEach(function (expense) {
+            updateExpenseList(expense);
+        });
+    }
+    if (expenseChart) showChart();
 });
 
 async function submitExpense(e) {
@@ -61,8 +67,13 @@ async function getAllExpenses() {
 }
 
 function updateExpenseList(data) {
-    // Add element in expense list
+    // Find element
     const expenseList = document.getElementById('expense-list');
+
+    // Needs to return immediately if expense list doesn't exists
+    if (!expenseList) return;
+
+    // Add element in expense list
     const expenseElement = document.createElement('div');
     expenseElement.className = 'expense-item';
     expenseElement.innerHTML = `
@@ -91,4 +102,84 @@ function showMessage(message) {
         messageElement.remove();
         messageContainer.remove();
     }, 1000);
+}
+
+function sumTotals(dailyTotals, expense) {
+    // Set total to 0 if it's first expense for the day
+    if (!dailyTotals[expense.day_id]) dailyTotals[expense.day_id] = 0;
+
+    // Add current expense to day's total
+    dailyTotals[expense.day_id] += expense.expense;
+
+    return dailyTotals;
+}
+
+async function getDailyTotals() {
+    // Get all expenses
+    const expenses = await getAllExpenses();
+
+    // Reduce expenses array into a dictionary of daily totals
+    const dailyTotals = expenses.reduce(sumTotals, {});
+
+    // Puts days as an array
+    const days = Object.keys(dailyTotals);
+
+    // Create array of corresponding total amounts
+    const totals = days.map(day => dailyTotals[day]);
+
+    return {days, totals};
+}
+
+async function showChart() {
+    // Gets the canvas context for drawing the chart
+    const chart = document.getElementById('expense-chart').getContext('2d');
+    const data = await getDailyTotals();
+
+    // Create new Chart.js chart
+    new Chart(chart, {
+        type: 'line',
+        data: {
+            labels: data.days.map(day => `Day ${day}`),
+            datasets: [{
+                label: 'Daily Total Expenses',
+                data: data.totals,
+                borderColor: '#5e503f',
+                backgroundColor: '#5e503f1a',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Daily Expenses Overview',
+                    font: {
+                        size: 16
+                    }
+                },
+                legend: {
+                    position: 'top'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Amount ($)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Day'
+                    }
+                }
+            }
+        }
+    });
 }

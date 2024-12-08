@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
 from models import User, Expense
+from sqlalchemy import func
 
 def routes(app, db, bcrypt):
 
@@ -74,7 +75,20 @@ def routes(app, db, bcrypt):
     # Route for tracking page
     @app.route('/track')
     def track():
-        return render_template('track.html')
+        # Querys day_id and sum of expenses
+        daily_totals = db.session.query(Expense.day_id, func.sum(Expense.amount).label('total'))
+
+        # Filters by user and group them by day
+        daily_totals = daily_totals.filter_by(user_id=current_user.uid).group_by(Expense.day_id)
+
+        # Execute the query
+        daily_totals = daily_totals.all()
+        
+        # Converts to lists for the chart
+        days = [day for day, _ in daily_totals]
+        totals = [float(total) for _, total in daily_totals]
+        
+        return render_template('track.html', days=days, totals=totals)
 
     # Route for adding expenses
     @app.route('/add-expense', methods=['POST'])
