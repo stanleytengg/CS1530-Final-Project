@@ -22,9 +22,7 @@
             <button type="submit" class="btn">Add</button>
         </form>
         <button id="next-day-btn" class="btn">Next Day</button>
-        <form id="track-expenses-form">
-            <input type="submit" value="Track" class="btn">
-        </form>
+        <a href="{{ url_for('track') }}" class="btn" id="track-btn">TRACK</a>
     </div>
     <div id="expense-list"></div>
 </div>

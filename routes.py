@@ -70,6 +70,11 @@ def routes(app, db, bcrypt):
     def logout():
         logout_user()
         return redirect(url_for('login'))
+    
+    # Route for tracking page
+    @app.route('/track')
+    def track():
+        return render_template('track.html')
 
     # Route for adding expenses
     @app.route('/add-expense', methods=['POST'])
