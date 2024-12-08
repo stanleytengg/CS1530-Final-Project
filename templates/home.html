@@ -21,26 +21,25 @@
 </div>
 
 <div id="data">
+    <div id="budget-form">
+        <form id="set-budget-form">
+            <input type="text" id="new-budget" name="set-budget" placeholder=" Enter a budget" required>
+            <button type="submit" class="btn">Set</button>
+        </form>
+        <h2><span id="budget-display"></span></h2>
+    </div>
     <div id="expenses-form">
-        <div id="day-tracker">
-            <h2>Day <span id="current-day">{{ current_user.day }}</span></h2>
-        </div>
         <form id="add-expenses-form">
             <input type="text" id="new-expense" name="add-expense" placeholder=" Enter an expense" required>
             <button type="submit" class="btn">Add</button>
         </form>
         <button id="next-day-btn" class="btn">Next Day</button>
-        <a href="{{ url_for('track') }}" class="btn" id="track-btn">TRACK</a>
+        <a href="{{ url_for('track') }}" id="track-btn">TRACK</a>
+        <div id="day-tracker">
+            <h2>Day <span id="current-day">{{ current_user.day }}</span></h2>
+        </div>
     </div>
     <div id="expense-list"></div>
-
-    <div id="budget-form">
-        <form id="set-budget-form">
-            <input type="text" id="new-budget" name="set-budget" placeholder="Enter a budget" required>
-            <button type="submit" class="btn">Set</button>
-        </form>
-    </div>
-    <span id="budget-display"></span>
 </div>
 <script>
 window.onload = updateBudget;

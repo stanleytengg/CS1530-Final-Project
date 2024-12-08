@@ -6,8 +6,19 @@ a {
     text-decoration: none;
 }
 
-a:hover {
-    color: #453b2e;
+#home-a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #5e503f;  /* Using your color scheme */
+    transition: width 0.3s;
+}
+
+#home-a:hover::after {
+    width: 100%;
 }
 
 /* Register/Login Page */
@@ -145,13 +156,13 @@ input.register-login-btn {
     justify-content: center;
 }
 
-#expenses-form, #budget-from {
+#expenses-form {
     display: flex;
-    margin-top: 60px;
     align-items: center;
 }
 
 #day-tracker {
+    margin-left: 10px;
     margin-right: 10px;
     color: #5e503f;
 }
@@ -160,22 +171,30 @@ input.register-login-btn {
     margin-top: 15px;
 }
 
-#add-expenses-form input {
+#data input {
     height: 35px;
-    width: 385px;
+    width: 200px;
     font-size: 17px;
     background-color: white;
     border: transparent;
     margin-top: 1px;
 }
 
-#budget-form input {
-    height: 35px;
-    width: 385px;
-    font-size: 17px;
-    background-color: white;
-    border: transparent;
-    margin-top: 1px;
+#budget-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 60px;
+    height: 50px;
+}
+
+#set-budget-form {
+    margin-top: 15px;
+}
+
+#budget-display {
+    color: #5e503f;
+    margin-right: 10px;
 }
 
 #track-expenses-form {
@@ -183,15 +202,26 @@ input.register-login-btn {
 }
 
 #track-btn {
+    box-sizing: border-box;
+    height: 35px;
+    width: 100px;
+    margin-bottom: 2px;
+    margin-left: 5px;
     text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #c6ac8f;
+    background-color: #5e503f;
+    border: none;
+}
+
+#track-btn:hover {
+    background-color: #c6ac8f;
     color: #5e503f;
 }
 
 .btn {
-    box-sizing: border-box;
     height: 35px;
     width: 100px;
     margin-bottom: 2px;

@@ -119,7 +119,8 @@ def routes(app, db, bcrypt):
             )
 
             db.session.add(new_notification)
-            db.session.commit()
+            
+        db.session.commit()
 
         return jsonify({
             'id': new_expense.id, 

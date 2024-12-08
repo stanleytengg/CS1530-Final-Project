@@ -35,7 +35,7 @@ const submitBudget = async (e) => {
     updateBudget();
 
     // Clears the input field
-    expenseID.value = '';
+    budgetID.value = '';
 }
 
 const updateBudget = () => {
