@@ -30,10 +30,21 @@ const submitBudget = async (e) => {
         method: 'POST',
         body: formData
     });
-    
-    // Updates list and shows message if response and data is working
-    updateBudget();
+    const data = await response.json();
 
+    if (response.ok && data) {
+        // Updates list and shows message if response and data is working
+        updateBudget();
+
+        // Clears expenses list
+        const expenseList = document.getElementById('expense-list');
+        if (expenseList) expenseList.innerHTML = '';
+
+        // Resets day to 1
+        const DayID = document.getElementById('current-day');
+        if (DayID) DayID.textContent = data.day;
+    }
+    
     // Clears the input field
     budgetID.value = '';
 }

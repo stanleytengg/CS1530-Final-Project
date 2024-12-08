@@ -119,7 +119,7 @@ def routes(app, db, bcrypt):
             )
 
             db.session.add(new_notification)
-            
+
         db.session.commit()
 
         return jsonify({
@@ -154,6 +154,7 @@ def routes(app, db, bcrypt):
         budget = float(request.form.get('set-budget'))
         if budget > 0:
             current_user.budget = budget
+            current_user.day = 1
             db.session.commit()
             
             new_notification = Notification(
@@ -164,9 +165,13 @@ def routes(app, db, bcrypt):
             )
 
             db.session.add(new_notification)
+            Expense.query.delete()
             db.session.commit()
 
-            return redirect(url_for('home'))
+            return jsonify({
+                'budget': budget,
+                'day': 1
+            })
         
         return "Invalid budget", 400
     
